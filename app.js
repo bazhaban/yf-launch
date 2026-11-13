@@ -380,8 +380,23 @@ async function main() {
   $('qty1').addEventListener('click', () => { state.qty = 1; render(); });
   $('qty2').addEventListener('click', () => { state.qty = 2; render(); });
   $('mintBtn').addEventListener('click', doMint);
-  document.querySelectorAll('.copy-btn').forEach((btn) => {
-    btn.addEventListener('click', () => copyPrompt(btn.getAttribute('data-copy'), btn));
+  document.querySelectorAll('.prompt-tab').forEach((tab) => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.prompt-tab').forEach((t) => {
+        const on = t === tab;
+        t.classList.toggle('active', on);
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+      document.querySelectorAll('.prompt-text').forEach((el) => {
+        const on = el.id === tab.getAttribute('data-tab');
+        el.classList.toggle('active', on);
+        el.hidden = !on;
+      });
+    });
+  });
+  $('copyPromptBtn').addEventListener('click', () => {
+    const el = document.querySelector('.prompt-text.active') || $('mintPrompt');
+    copyPrompt(el.id, $('copyPromptBtn'));
   });
 
   if (window.ethereum) {

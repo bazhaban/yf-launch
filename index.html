@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>YF — 引信发射 · 100 份点亮</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
 <div class="glow glow-a"></div>
@@ -127,14 +127,17 @@
 
 <section class="prompts" id="prompts">
   <h2>AI 钱包提示词</h2>
-  <p class="prompts-sub">把下面整段复制给其他 AI 钱包执行。铸造请在窗口内使用；退款请在窗口结束且未开池后再用。</p>
+  <p class="prompts-sub">复制整段发给其他 AI 钱包即可。铸造请在窗口内用，退款请在窗口结束且未开池后再用。</p>
 
-  <div class="prompt-card">
-    <div class="prompt-head">
-      <h3>铸造提示词</h3>
-      <button type="button" class="btn btn-ghost copy-btn" data-copy="mintPrompt">复制</button>
+  <div class="prompt-shell">
+    <div class="prompt-toolbar">
+      <div class="prompt-tabs" role="tablist">
+        <button type="button" class="prompt-tab active" data-tab="mintPrompt" role="tab" aria-selected="true">铸造</button>
+        <button type="button" class="prompt-tab" data-tab="refundPrompt" role="tab" aria-selected="false">退款</button>
+      </div>
+      <button type="button" class="btn btn-ghost copy-btn" id="copyPromptBtn">复制提示词</button>
     </div>
-    <pre id="mintPrompt" class="prompt-text">在 BSC（chainId 56）对已部署的 YF 销售合约铸造，不要部署新合约，不要改金额，不要做额外 approve 或转账。
+    <pre id="mintPrompt" class="prompt-text active" role="tabpanel">在 BSC（chainId 56）对已部署的 YF 销售合约铸造，不要部署新合约，不要改金额，不要做额外 approve 或转账。
 
 销售合约：0xAec97f7a4db0991f1f6547BaC9c913a5f1Bd706B
 代币合约：0xf3625E155ABc3480D4fdcFdEdf3550fb93978b70
@@ -142,14 +145,7 @@
 只调用一次 mint(1)，value=0.001 BNB（1000000000000000 wei）。每个钱包最多 1 份，必须持有官方 SPACE ID Agent ID（注册表 0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F）。窗口截止 2026-11-14 01:51:17（Asia/Shanghai）。
 
 铸前先读：mintOpen、opened、mintedLots(本钱包)。若 mintedLots 已大于 0，或 mintOpen=false，或已开池，就停止，不要再发交易。不要重复 mint，不要改份数，不要额外 approve 或 transfer。</pre>
-  </div>
-
-  <div class="prompt-card">
-    <div class="prompt-head">
-      <h3>退款提示词</h3>
-      <button type="button" class="btn btn-ghost copy-btn" data-copy="refundPrompt">复制</button>
-    </div>
-    <pre id="refundPrompt" class="prompt-text">在 BSC（chainId 56）对已部署的 YF 销售合约操作退款，不要部署新合约，不要改金额，不要做额外 approve 或转账。
+    <pre id="refundPrompt" class="prompt-text" role="tabpanel" hidden>在 BSC（chainId 56）对已部署的 YF 销售合约操作退款，不要部署新合约，不要改金额，不要做额外 approve 或转账。
 
 销售合约：0xAec97f7a4db0991f1f6547BaC9c913a5f1Bd706B
 代币合约：0xf3625E155ABc3480D4fdcFdEdf3550fb93978b70
@@ -183,6 +179,6 @@
 </footer>
 
 <script src="vendor/ethers.umd.min.js"></script>
-<script src="app.js"></script>
+<script src="app.js?v=2"></script>
 </body>
 </html>
