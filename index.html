@@ -19,6 +19,7 @@
   <div class="nav">
     <a href="#how">玩法</a>
     <a href="#math">数学</a>
+    <a href="#prompts">提示词</a>
     <a href="#faq">FAQ</a>
     <button id="connectBtn" class="btn btn-ghost">连接钱包</button>
   </div>
@@ -94,7 +95,7 @@
   <div class="card">
     <span class="num">03</span>
     <h3>点火，或者退款</h3>
-    <p>凑满 100 份的那笔交易自己开池：95% 的募集注入 PancakeSwap，60,050,000 YF 销毁，交易解锁。2 小时内没卖光，所有人全额退款。</p>
+    <p>凑满 100 份的那笔交易自己开池：95% 的募集注入 PancakeSwap，60,050,000 YF 销毁，交易解锁。2 小时内没卖光则不会开池；窗口结束后需先调用 <code>enableRefunds()</code>，再各自调用 <code>refund()</code>，取回自己付的全部 0.001 BNB。</p>
   </div>
 </section>
 
@@ -121,6 +122,46 @@
     <tr><td>前 10 份合计</td><td>≈ 0.04866 BNB</td><td class="v">51% 池子</td></tr>
   </table>
   <p class="warn">以上用 PancakeSwap V2 恒定乘积公式计算，只含 0.25% 池子手续费，假设没有别人先交易。这是近似值 —— 池子总共 0.095 BNB，10× 不可能被所有人兑现：越早卖越好，卖到第 10 个之后基本只剩零头。</p>
+</section>
+
+
+<section class="prompts" id="prompts">
+  <h2>AI 钱包提示词</h2>
+  <p class="prompts-sub">把下面整段复制给其他 AI 钱包执行。铸造请在窗口内使用；退款请在窗口结束且未开池后再用。</p>
+
+  <div class="prompt-card">
+    <div class="prompt-head">
+      <h3>铸造提示词</h3>
+      <button type="button" class="btn btn-ghost copy-btn" data-copy="mintPrompt">复制</button>
+    </div>
+    <pre id="mintPrompt" class="prompt-text">在 BSC（chainId 56）对已部署的 YF 销售合约铸造，不要部署新合约，不要改金额，不要做额外 approve 或转账。
+
+销售合约：0xAec97f7a4db0991f1f6547BaC9c913a5f1Bd706B
+代币合约：0xf3625E155ABc3480D4fdcFdEdf3550fb93978b70
+
+只调用一次 mint(1)，value=0.001 BNB（1000000000000000 wei）。每个钱包最多 1 份，必须持有官方 SPACE ID Agent ID（注册表 0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F）。窗口截止 2026-11-14 01:51:17（Asia/Shanghai）。
+
+铸前先读：mintOpen、opened、mintedLots(本钱包)。若 mintedLots 已大于 0，或 mintOpen=false，或已开池，就停止，不要再发交易。不要重复 mint，不要改份数，不要额外 approve 或 transfer。</pre>
+  </div>
+
+  <div class="prompt-card">
+    <div class="prompt-head">
+      <h3>退款提示词</h3>
+      <button type="button" class="btn btn-ghost copy-btn" data-copy="refundPrompt">复制</button>
+    </div>
+    <pre id="refundPrompt" class="prompt-text">在 BSC（chainId 56）对已部署的 YF 销售合约操作退款，不要部署新合约，不要改金额，不要做额外 approve 或转账。
+
+销售合约：0xAec97f7a4db0991f1f6547BaC9c913a5f1Bd706B
+代币合约：0xf3625E155ABc3480D4fdcFdEdf3550fb93978b70
+
+前提：铸造窗口已于 2026-11-14 01:51:17（Asia/Shanghai）结束，且合约未开池（opened=false）。如果已经发射或已退过款，就停止，不要再发交易。
+
+步骤：
+1. 先读合约：mintOpen、opened、refundsActive、mintedLots(本钱包)。
+2. 若窗口已结束且未开池，且 refundsActive 仍为 false：只调用一次 enableRefunds()，value=0，不要带参数。任何人都可以调用这一步。
+3. 等 refundsActive 变为 true 后，若本钱包 mintedLots > 0 且还没退过：只调用一次 refund()，value=0，不要带参数。成功后会退回本钱包铸造时支付的全部 0.001 BNB。
+4. 不要再 mint，不要 swap，不要 transfer YF，不要重复调用 enableRefunds 或 refund。</pre>
+  </div>
 </section>
 
 <section class="faq" id="faq">

@@ -149,7 +149,7 @@ main, section, footer { position: relative; z-index: 1; }
 .card h3 { margin: 10px 0 8px; font-size: 17px; }
 .card p { margin: 0; color: var(--muted); font-size: 14px; }
 
-.math, .faq { max-width: 1040px; margin: 80px auto 0; padding: 0 28px; }
+.math, .faq, .prompts { max-width: 1040px; margin: 80px auto 0; padding: 0 28px; }
 .math h2, .faq h2 { font-size: 28px; margin: 0 0 8px; }
 .math-sub { color: var(--muted); font-size: 14px; margin: 0 0 22px; }
 .math h3 { font-size: 18px; margin: 32px 0 12px; }
@@ -174,6 +174,27 @@ main, section, footer { position: relative; z-index: 1; }
 .faq summary { cursor: pointer; font-weight: 600; font-size: 15px; }
 .faq details p { margin: 10px 0 0; color: var(--muted); font-size: 14px; }
 .faq code { background: #ffffff12; padding: 2px 6px; border-radius: 5px; font-size: 12.5px; }
+
+
+.prompts h2 { font-size: 28px; margin: 0 0 8px; }
+.prompts-sub { color: var(--muted); font-size: 14px; margin: 0 0 22px; }
+.prompt-card {
+  background: var(--panel); border: 1px solid var(--line);
+  border-radius: 16px; padding: 18px 20px; margin-bottom: 14px;
+}
+.prompt-head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; margin-bottom: 10px;
+}
+.prompt-head h3 { margin: 0; font-size: 16px; }
+.prompt-text {
+  margin: 0; padding: 14px 16px;
+  background: #00000066; border: 1px solid var(--line); border-radius: 12px;
+  font-size: 13px; line-height: 1.6; white-space: pre-wrap; word-break: break-word;
+  color: var(--text); overflow-x: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+}
+.copy-btn.copied { color: var(--ok); border-color: #38d39f55; }
 
 footer {
   max-width: 1040px; margin: 80px auto 60px; padding: 0 28px;

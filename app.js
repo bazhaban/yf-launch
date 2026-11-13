@@ -341,12 +341,48 @@ function tick() {
   el.textContent = `${h}:${m}:${s}`;
 }
 
+
+function fallbackCopy(text, done) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.setAttribute('readonly', '');
+  ta.style.position = 'fixed';
+  ta.style.left = '-9999px';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); done(); } catch (_) {}
+  document.body.removeChild(ta);
+}
+
+function copyPrompt(id, btn) {
+  const el = $(id);
+  const text = (el?.innerText || el?.textContent || '').trim();
+  if (!text) return;
+  const label = btn.textContent;
+  const done = () => {
+    btn.textContent = '已复制';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = label;
+      btn.classList.remove('copied');
+    }, 1600);
+  };
+  if (navigator.clipboard?.writeText) {
+    navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+  } else {
+    fallbackCopy(text, done);
+  }
+}
+
 async function main() {
   await loadConfig();
   $('connectBtn').addEventListener('click', connect);
   $('qty1').addEventListener('click', () => { state.qty = 1; render(); });
   $('qty2').addEventListener('click', () => { state.qty = 2; render(); });
   $('mintBtn').addEventListener('click', doMint);
+  document.querySelectorAll('.copy-btn').forEach((btn) => {
+    btn.addEventListener('click', () => copyPrompt(btn.getAttribute('data-copy'), btn));
+  });
 
   if (window.ethereum) {
     window.ethereum.on?.('accountsChanged', async (accs) => {
