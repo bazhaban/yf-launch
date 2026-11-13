@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YF — 引信发射 · 100 份点亮</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="glow glow-a"></div>
+<div class="glow glow-b"></div>
+
+<header>
+  <div class="brand">
+    <span class="dot"></span>
+    <span class="brand-name">YF</span>
+    <span class="brand-tag">IGNITION</span>
+  </div>
+  <div class="nav">
+    <a href="#how">玩法</a>
+    <a href="#math">数学</a>
+    <a href="#faq">FAQ</a>
+    <button id="connectBtn" class="btn btn-ghost">连接钱包</button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="badge">BNB CHAIN · AGENT ID ONLY · 无预售</div>
+  <h1>100 份点亮引信</h1>
+  <p class="sub">全部售出 → 95% 募集在同一笔交易里注入池子 → 开盘印出铸造价的 <b>10×</b>（不再虚标 43.7×）</p>
+
+  <div class="stats">
+    <div class="stat">
+      <span class="stat-label">已售份数</span>
+      <span class="stat-value"><b id="lotsSold">0</b> / 100</span>
+    </div>
+    <div class="stat">
+      <span class="stat-label" id="countdownLabel">距开盘</span>
+      <span class="stat-value" id="countdown">--:--:--</span>
+    </div>
+    <div class="stat">
+      <span class="stat-label">阶段</span>
+      <span class="stat-value" id="phase">读取中</span>
+    </div>
+  </div>
+
+  <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+  <p class="progress-note" id="progressNote">读取链上状态中…</p>
+</section>
+
+<section class="mint-card" id="mintCard">
+  <div class="mint-head">
+    <h2>铸造</h2>
+    <span class="mint-per" id="mintPer">1 份 = 0.001 BNB · 8,584,000 YF</span>
+  </div>
+
+  <div class="qty-row">
+    <button class="qty-btn active" data-qty="1" id="qty1">1 份 / 钱包</button>
+    <button class="qty-btn" data-qty="2" id="qty2" hidden>2 份</button>
+  </div>
+
+  <div class="pay-row">
+    <span>本次支付</span>
+    <b id="payAmount">0.001 BNB</b>
+  </div>
+  <div class="pay-row">
+    <span>预计获得</span>
+    <b id="getAmount">8,584,000 YF</b>
+  </div>
+  <div class="pay-row muted">
+    <span>我的已铸</span>
+    <b id="myMinted">—</b>
+  </div>
+  <div class="pay-row muted">
+    <span>Agent ID</span>
+    <b id="agentStatus">—</b>
+  </div>
+
+  <button id="mintBtn" class="btn btn-primary" disabled>请先连接钱包</button>
+  <p class="hint" id="hint"></p>
+</section>
+
+<section class="grid" id="how">
+  <div class="card">
+    <span class="num">01</span>
+    <h3>拿一个 Agent ID</h3>
+    <p>铸造由币安 Agent ID 注册表把关：钱包必须持有 .ai Agent ID。没有 ID 就铸不了，这条门槛对所有人一视同仁。</p>
+  </div>
+  <div class="card">
+    <span class="num">02</span>
+    <h3>一个钱包只买一份</h3>
+    <p>每份 0.001 BNB，每份 8,584,000 YF，<b>每个钱包最多 1 份</b>。共 100 份 —— 必须凑够 100 个 Agent ID 钱包才能售罄。窗口 2 小时。</p>
+  </div>
+  <div class="card">
+    <span class="num">03</span>
+    <h3>点火，或者退款</h3>
+    <p>凑满 100 份的那笔交易自己开池：95% 的募集注入 PancakeSwap，60,050,000 YF 销毁，交易解锁。2 小时内没卖光，所有人全额退款。</p>
+  </div>
+</section>
+
+<section class="math" id="math">
+  <h2>为什么开盘印出 10×</h2>
+  <p class="math-sub">这不是承诺，是算术。倍数 =（注入池子的募集比例）×（售卖代币 ÷ 池子代币）。</p>
+  <table class="math-table">
+    <tr><td>铸造价</td><td>0.001 BNB ÷ 8,584,000 YF</td><td class="v">0.0000000001165 BNB</td></tr>
+    <tr><td>售罄募集</td><td>100 × 0.001 BNB</td><td class="v">0.1 BNB</td></tr>
+    <tr><td>注入池子</td><td>95% of raise</td><td class="v">0.095 BNB</td></tr>
+    <tr><td>池子代币侧</td><td>81,550,000 YF</td><td class="v">81,550,000</td></tr>
+    <tr><td>开盘价</td><td>0.095 ÷ 81,550,000</td><td class="v">0.000000001165 BNB</td></tr>
+    <tr class="hl"><td>开盘倍数</td><td>0.95 × (858,400,000 ÷ 81,550,000)</td><td class="v">10.0×</td></tr>
+  </table>
+
+  <h3>池子只有 0.095 BNB，倍数越卖越低</h3>
+  <table class="math-table">
+    <tr><th>卖出顺序</th><th>卖 1 整份（8,584,000 YF）得到</th><th class="v">对比 0.001 成本</th></tr>
+    <tr><td>第 1 个卖</td><td>≈ 0.00903 BNB</td><td class="v">9.0×</td></tr>
+    <tr><td>第 2 个卖</td><td>≈ 0.00746 BNB</td><td class="v">7.5×</td></tr>
+    <tr><td>第 3 个卖</td><td>≈ 0.00627 BNB</td><td class="v">6.3×</td></tr>
+    <tr><td>第 4 个卖</td><td>≈ 0.00534 BNB</td><td class="v">5.3×</td></tr>
+    <tr><td>第 10 个卖</td><td>≈ 0.00250 BNB</td><td class="v">2.5×</td></tr>
+    <tr><td>前 10 份合计</td><td>≈ 0.04866 BNB</td><td class="v">51% 池子</td></tr>
+  </table>
+  <p class="warn">以上用 PancakeSwap V2 恒定乘积公式计算，只含 0.25% 池子手续费，假设没有别人先交易。这是近似值 —— 池子总共 0.095 BNB，10× 不可能被所有人兑现：越早卖越好，卖到第 10 个之后基本只剩零头。</p>
+</section>
+
+<section class="faq" id="faq">
+  <h2>FAQ</h2>
+  <details><summary>有团队份额或通胀吗？</summary><p>没有团队份额，没有通胀。总供应 10 亿枚，铸造一次就固定。</p></details>
+  <details><summary>代币什么时候能交易？</summary><p>售罄点火的那一刻自动开池并解锁交易。没售罄则永远不会开池，全部退款。</p></details>
+  <details><summary>没卖光我拿回多少？</summary><p>全额。窗口结束（2 小时）后，页面会帮你先调用 <code>enableRefunds()</code>，再调用 <code>refund()</code>，取回自己付的全部 BNB。</p></details>
+  <details><summary>买卖有税吗？</summary><p>0%。买和卖都不收交易税。</p></details>
+  <details><summary>合约审计过吗？</summary><p>没有。合约未审计，请自行在 BscScan 上核对地址和源码后再参与。</p></details>
+</section>
+
+<footer>
+  <p><b>免责声明</b>：YF 是社区代币，没有内在价值，不承诺任何回报。10× 是池子初始储备隐含的开盘印价 —— 一个极小池子上的纸面价格，不是估值，不是预测。合约未审计。不要投入任何你无法承受全部损失的资金。</p>
+  <p class="foot-links">
+    <a id="tokenLink" target="_blank" rel="noopener">代币合约</a> ·
+    <a id="saleLink" target="_blank" rel="noopener">销售合约</a> ·
+    <a id="pairLink" target="_blank" rel="noopener">交易对</a>
+  </p>
+</footer>
+
+<script src="vendor/ethers.umd.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
